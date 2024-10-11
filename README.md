@@ -232,5 +232,3 @@ export default App;
 ### Summary
 Now your proof of concept includes a full stack where users can upload images, recognize tags using a Python Flask API, store the tags in Elasticsearch, and search for recognized tags through the React front-end. This provides a robust solution for handling image recognition and retrieval.
 
-Feel free to modify and expand upon this code based on your specific requirements.
-
