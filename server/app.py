@@ -64,7 +64,7 @@ def search_images():
     if not query:
         return jsonify({'error': 'No search query provided'}), 400
 
-    # Search in Elasticsearch
+    # Search in Elasticsearch.
     results = []
     if es.indices.exists(index="images"):
         response = es.search(index='images', body={

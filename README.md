@@ -36,3 +36,4 @@ npm run dev
 1. Open your browser and navigate to `http://localhost:5173/`.
 2. Upload an image and click "Recognize Image" to process it and store the tags in Elasticsearch.
 3. Enter a search query in the search bar and click "Search" to retrieve images associated with the specified tags.
+4. To clear elasticsearch data run: `curl -u <user>:<password> -X DELETE 'http://localhost:9200/images'`
