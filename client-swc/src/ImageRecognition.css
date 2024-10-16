@@ -1,0 +1,18 @@
+.recognition-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.image-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  align-items: center;
+}
+
+.card {
+  display: flex;
+  column-gap: 15px;
+  padding: 2em;
+  align-items: center;
+}

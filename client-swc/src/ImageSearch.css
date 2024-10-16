@@ -1,0 +1,8 @@
+.search-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.not-found {
+  padding: 0 2em;
+}

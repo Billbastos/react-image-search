@@ -22,7 +22,7 @@ es = Elasticsearch(
 )
 
 # Load the MobileNet model
-model = tf.keras.applications.MobileNetV2(weights='imagenet', alpha=0.35)
+model = tf.keras.applications.MobileNetV2(weights='imagenet', alpha=1.4)
 
 def prepare_image(image):
     image = image.resize((224, 224))
@@ -40,8 +40,8 @@ def recognize_image():
     image = prepare_image(image)
     predictions = model.predict(image)
     decoded_predictions = tf.keras.applications.mobilenet_v2.decode_predictions(predictions)
-    print(decoded_predictions)
-    # Store recognized tags in Elasticsearch
+
+    # Prepare tags to store in Elasticsearch
     tags = []
     for prediction_list in decoded_predictions:
         for pred in prediction_list:  # Loop through each tuple in the inner list
@@ -49,7 +49,7 @@ def recognize_image():
             confidence = float(pred[2])  # Extract the confidence (e.g., 0.3443646)
             tags.append({"tag": tag, "confidence": confidence})
 
-    # Manages indices and id existence. 
+    # Manages indices and id existence and store to elastic search. 
     if es.indices.exists(index="images"):
         if not es.exists(index='images', id=file.filename):
             es.create(index='images', id=file.filename, body={"tags": tags, "file-name": file.filename})

@@ -1,23 +1,14 @@
-import { useState } from 'react'
-import ImageUploader from './ImageUploader'
+import ImageRecognition from './ImageRecognition'
+import ImageSearch from './ImageSearch'
 
 const App = () => {
-  const [recognizedTags, setRecognizedTags] = useState<string[]>([])
-
   return (
-    <div>
+    <main>
       <h1>Image Recognition POC</h1>
-      <ImageUploader setRecognizedTags={setRecognizedTags} />
-      {recognizedTags.length > 0 && (
-        <>
-          <hr />
-          <div>
-            <h2>Recognized Tags:</h2>
-            <p>{recognizedTags.join(', ')}</p>
-          </div>
-        </>
-      )}
-    </div>
+      <ImageSearch />
+      <hr />
+      <ImageRecognition />
+    </main>
   )
 }
 

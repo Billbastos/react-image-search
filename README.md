@@ -6,12 +6,13 @@ A full stack POC where users can upload images, recognize tags using a Python Fl
 
 This proof of concept (POC) allows users to upload images, process them with a Python Flask API for image recognition using TensorFlow, store recognized tags in Elasticsearch, and search for images based on the tags through a React front-end.
 
+![Flow](TF-Elastic.png)
+
 ## Technologies Used
 
 - **Front-end**: React
-- **Back-end**: Flask (Python) for image recognition
+- **Back-end**: Flask/[Tensorflow](https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNetV2) (Python) for image recognition
 - **Search**: Elasticsearch for storing and querying recognized tags
-- **File Upload**: Flask for handling uploads
 
 ### Run Your Application
 
