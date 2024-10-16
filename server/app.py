@@ -20,6 +20,7 @@ es = Elasticsearch(
     hosts=ES_URL,
     basic_auth=("elastic", ES_PASSWORD)
 )
+es.indices.create(index='images')
 
 # Load the MobileNet model
 model = tf.keras.applications.MobileNetV2(weights='imagenet', alpha=1.4)
@@ -50,11 +51,8 @@ def recognize_image():
             tags.append({"tag": tag, "confidence": confidence})
 
     # Manages indices and id existence and store to elastic search. 
-    if es.indices.exists(index="images"):
-        if not es.exists(index='images', id=file.filename):
-            es.create(index='images', id=file.filename, body={"tags": tags, "file-name": file.filename})
-    else:
-        es.index(index='images', id=file.filename, body={"tags": tags, "file-name": file.filename})
+    if not es.exists(index='images', id=file.filename):
+        es.create(index='images', id=file.filename, body={"tags": tags, "file-name": file.filename})
     
     return jsonify(tags), 200
 
