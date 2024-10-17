@@ -21,7 +21,7 @@ es = Elasticsearch(
     basic_auth=("elastic", ES_PASSWORD)
 )
 
-# Create the index (e.g., 'images')
+# Create the index == 'images'
 index_name = 'images'
 if not es.indices.exists(index=index_name):
     es.indices.create(index=index_name)
@@ -98,4 +98,4 @@ def search_images():
     return jsonify(results)
 
 if __name__ == '__main__':
-    app.run(port=5000)
+    app.run(port=5000, debug=True)

@@ -4,7 +4,7 @@ import ImageSearch from './ImageSearch'
 const App = () => {
   return (
     <main>
-      <h1>Image Recognition POC</h1>
+      <h1>Image Recognition POC 🌃</h1>
       <ImageSearch />
       <hr />
       <ImageRecognition />

@@ -35,6 +35,11 @@ const ImageSearch = () => {
             setQueryInitialized(false)
             setSearchQuery(e.target.value)
           }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              searchImages()
+            }
+          }}
           placeholder='Search for tags...'
         />
         <button onClick={searchImages}>Search</button>
@@ -61,7 +66,7 @@ const ImageSearch = () => {
       )}
       {searchResults.length === 0 && searchQuery && isQueryInitialized && (
         <div className='not-found'>
-          <p>No results found.</p>
+          <p>Sorry, no results found. 😞</p>
         </div>
       )}
     </section>
