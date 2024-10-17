@@ -15,12 +15,17 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-# Initialize Elasticsearch
+# Initialize Elasticsearch and create an indice if not exists.
 es = Elasticsearch(
     hosts=ES_URL,
     basic_auth=("elastic", ES_PASSWORD)
 )
-es.indices.create(index='images')
+
+# Create the index (e.g., 'images')
+index_name = 'images'
+if not es.indices.exists(index=index_name):
+    es.indices.create(index=index_name)
+
 
 # Load the MobileNet model
 model = tf.keras.applications.MobileNetV2(weights='imagenet', alpha=1.4)
@@ -50,9 +55,20 @@ def recognize_image():
             confidence = float(pred[2])  # Extract the confidence (e.g., 0.3443646)
             tags.append({"tag": tag, "confidence": confidence})
 
-    # Manages indices and id existence and store to elastic search. 
-    if not es.exists(index='images', id=file.filename):
-        es.create(index='images', id=file.filename, body={"tags": tags, "file-name": file.filename})
+    # Manages indices and id existence and store to elastic search.
+    # Even though the model is deterministic (tags will not change when image is the same), the update with handle
+    # edge cases when files are renamed.
+    if not es.exists(index=index_name, id=file.filename):
+        es.create(index=index_name, id=file.filename, body={"tags": tags, "file-name": file.filename})
+    else:
+        es.update(
+            index=index_name, id=file.filename, body={
+                "doc": {
+                    "tags": tags,
+                    "file-name": file.filename
+                }
+            }
+        )
     
     return jsonify(tags), 200
 
@@ -68,7 +84,10 @@ def search_images():
         response = es.search(index='images', body={
             "query": {
                 "match": {
-                    "tags.tag": query
+                    "tags.tag": {
+                        "query": query,
+                        "fuzziness": "AUTO"
+                    }
                 }
             }
         })

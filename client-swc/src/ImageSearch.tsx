@@ -4,6 +4,7 @@ import { FLASK_API_URL } from './utils/config'
 
 const ImageSearch = () => {
   const [searchQuery, setSearchQuery] = useState('')
+  const [searchedResult, setSearchedResult] = useState('')
   const [searchResults, setSearchResults] = useState([])
   const [isQueryInitialized, setQueryInitialized] = useState(false)
 
@@ -15,9 +16,11 @@ const ImageSearch = () => {
           `${FLASK_API_URL}/search-images?query=${searchQuery}`
         ).then((r) => r.json())
         setSearchResults(response)
+        setSearchedResult(searchQuery)
       } catch (error) {
         console.error('Error searching images:', error)
         setSearchResults([])
+        setSearchedResult('')
       }
     }
   }
@@ -47,7 +50,7 @@ const ImageSearch = () => {
                     <>
                       <strong>{` confidence: `}</strong>
                       {result.tags.find((r: { tag: string }) =>
-                        searchQuery.includes(r.tag)
+                        searchedResult.includes(r.tag)
                       )?.confidence || '0'}
                     </>
                   )}
