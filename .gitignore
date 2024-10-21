@@ -1,3 +1,4 @@
 client-swc/node_modules
 elastic-start-local/.env
 server/.env
+__pycache__
